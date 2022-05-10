@@ -19,7 +19,7 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: NGSI_CB_URL
-          value: "http://context-broker.$(POD_NAMESPACE).svc.cluster.local"
+          value: "http://context-broker"
         - name: RABBITMQ_DISABLED
           value: "true"
         image: ghcr.io/diwise/iot-transform-fiware:changeme
