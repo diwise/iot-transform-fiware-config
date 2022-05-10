@@ -20,8 +20,8 @@ spec:
               fieldPath: metadata.namespace
         - name: NGSI_CB_URL
           value: "http://context-broker"
-        - name: RABBITMQ_DISABLED
-          value: "true"
+        - name: RABBITMQ_HOST
+          value: rabbitmq
         image: ghcr.io/diwise/iot-transform-fiware:changeme
         imagePullPolicy: IfNotPresent
         livenessProbe:
