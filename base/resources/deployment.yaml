@@ -2,6 +2,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    opentelemetry: enabled
   name: iot-transform-fiware
 spec:
   replicas: 0
