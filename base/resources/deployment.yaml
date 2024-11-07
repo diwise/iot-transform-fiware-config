@@ -20,6 +20,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: CONTROL_PORT
+          value: "8000"
         - name: NGSI_CB_URL
           value: "http://context-broker"
         - name: RABBITMQ_HOST
@@ -29,11 +31,14 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: default-port
+            port: control-port
         name: iot-transform-fiware
         ports:
         - containerPort: 8080
           name: default-port
+          protocol: TCP
+        - containerPort: 8000
+          name: control-port
           protocol: TCP
         resources:
           limits:
@@ -45,5 +50,5 @@ spec:
         startupProbe:
           httpGet:
             path: /health
-            port: default-port
+            port: control-port
       serviceAccountName: iot-transform-fiware
