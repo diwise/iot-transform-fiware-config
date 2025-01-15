@@ -15,40 +15,44 @@ spec:
     metadata:
     spec:
       containers:
-      - env:
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: CONTROL_PORT
-          value: "8000"
-        - name: NGSI_CB_URL
-          value: "http://context-broker"
-        - name: RABBITMQ_HOST
-          value: rabbitmq
-        image: ghcr.io/diwise/iot-transform-fiware:changeme
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: control-port
-        name: iot-transform-fiware
-        ports:
-        - containerPort: 8080
-          name: default-port
-          protocol: TCP
-        - containerPort: 8000
-          name: control-port
-          protocol: TCP
-        resources:
-          limits:
-            cpu: 250m
-            memory: 250Mi
-          requests:
-            cpu: 50m
-            memory: 100Mi
-        startupProbe:
-          httpGet:
-            path: /health
-            port: control-port
+        - env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONTROL_PORT
+              value: "8000"
+            - name: NGSI_CB_URL
+              value: "http://context-broker"
+            - name: RABBITMQ_HOST
+              value: rabbitmq
+          image: ghcr.io/diwise/iot-transform-fiware:changeme
+          imagePullPolicy: IfNotPresent
+          name: iot-transform-fiware
+          ports:
+            - containerPort: 8080
+              name: default-port
+              protocol: TCP
+            - containerPort: 8000
+              name: control-port
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 250m
+              memory: 250Mi
+            requests:
+              cpu: 50m
+              memory: 100Mi
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: control-port
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: control-port
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: control-port
       serviceAccountName: iot-transform-fiware
